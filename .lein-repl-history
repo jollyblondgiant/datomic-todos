@@ -1,0 +1,17 @@
+split-at
+(split-at 3 ["a" "b" "c"])
+(def rotLeft [a d] (let [[right left] (split-at d a] (conj d a))
+(def rotLeft [a d] (let [[right left] (split-at d a) (conj d a))
+(def rotLeft [a d] (let [[right left] (split-at d a)] (conj d a))
+;
+(def rotLeft [a d] 
+    (let [[right left] (split-at  d a)]
+        (conj d a)
+    ))
+(defn rotLeft [a d] 
+    (let [[right left] (split-at  d a)]
+        (conj d a)
+    ))
+(rotleft [1 2 3 4] 2)
+(rotLeft [1 2 3 4] 2)
+(conj [] :foo)
