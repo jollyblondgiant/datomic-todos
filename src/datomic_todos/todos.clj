@@ -57,9 +57,9 @@
 
 (d/create-database db-uri)
 (defonce conn (d/connect db-uri))
+
+
 (map (fn [tx] @(d/transact conn tx)) [todo-schema default-todos])
-@(d/transact conn todo-schema)
-@(d/transact conn default-todos)
 
 (defn add-new-todo
   "asserts new todo
@@ -223,6 +223,8 @@
   [user]
   (d/q
    '[:find ?description ?complete ?tx ?op
+     ;;^ search for timestamp of tx and not just tx
+     ;;^ also make sure you're only getting txs assoc's to user
      :in $ ?user
      :where
      [?todo :todo/complete ?complete ?tx ?op]

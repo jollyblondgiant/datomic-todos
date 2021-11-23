@@ -188,8 +188,8 @@
   and then redirects"
   [{route :uri params :params :as request}]
   (if-let [user (-> request :cookies (get "user") :value)]
-    (let [description (get params "todo")]
-      (todos/add-new-todo user description)
+    (let [description (get params "todo")
+          resp (todos/add-new-todo user description)]
       (-> {:data (str "successfully added new todo : " description)
            :meta {:docstring links-guide
                   :links {:logout "/logout"
@@ -209,15 +209,15 @@
   [{route :uri params :params
     :as request}]
   (if-let [user (-> request :cookies (get "user") :value)]
-    (-> (ring.util.response/response
-         (generate-string
-          {:data (todos/tx-graph-for-user user)
-           :meta {:docstring "vector of [timestamp task-count] vectors"
-                  :links {:logout "/logout"
-                          :get-complete-todos "/dones"
-                          :get-todos "/todos"
-                          :add-todo "/add-todo?todo=%s"}}})
-         (ring.util.response/content-type "text/json")))
+    (-> {:data (todos/tx-graph-for-user user)
+         :meta {:docstring "vector of [timestamp task-count] vectors"
+                :links {:logout "/logout"
+                        :get-complete-todos "/dones"
+                        :get-todos "/todos"
+                        :add-todo "/add-todo?todo=%s"}}}
+        generate-string
+        ring.util.response/response
+        (ring.util.response/content-type "text/json"))
     login-prompt))
 
 (defn todo-graph

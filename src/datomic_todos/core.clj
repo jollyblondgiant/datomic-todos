@@ -14,14 +14,20 @@
   [{route :uri :as request}]
   (case route
     "/" (routes/home request)
+
     "/login" (routes/login request)
+    "/logout" (routes/logout request)
+
     "/todos" (routes/todos request)
     "/dones" (routes/dones request)
-    "/logout" (routes/logout request)
+
+
     "/complete-todo" (routes/complete-todo request)
     "/incomplete-todo" (routes/incomplete-todo request)
+
     "/forget-todo" (routes/forget-todo request)
-    "/add-todo" (routes/add-todo request)
+    "/add-todo" (routes/add-todo request
+                                 )
     "/graph" (routes/todo-graph request)
     "/chart" (routes/todo-chart request)
     (ring.util.response/not-found)))
